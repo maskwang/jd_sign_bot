@@ -57,18 +57,22 @@ async function start() {
   await exec("node JD_DailyBonus.js >> result.txt");
   console.log('执行完毕')
 
-  if (serverJ) {
-    const path = "./result.txt";
-    let content = "";
-    if (fs.existsSync(path)) {
-      content = fs.readFileSync(path, "utf8");
-    }
-    let t = content.match(/【签到概览】:((.|\n)*)【签到奖励】/)
-    let res = t ? t[1].replace(/\n/,'') : '失败'
-    let t2 = content.match(/【签到奖励】:((.|\n)*)【其他奖励】/)
-    let res2 = t2 ? t2[1].replace(/\n/,'') : '总计0'
+  const path = "./result.txt";
+  let content = "";
+  if (fs.existsSync(path)) {
+    content = fs.readFileSync(path, "utf8");
+  }
 
-    
+  console.log('=====> result')  
+  console.log(content)
+
+  let t = content.match(/【签到概览】:((.|\n)*)【签到奖励】/)
+  let res = t ? t[1].replace(/\n/,'') : '失败'
+  let t2 = content.match(/【签到奖励】:((.|\n)*)【其他奖励】/)
+  let res2 = t2 ? t2[1].replace(/\n/,'') : '总计0'
+
+  if (serverJ) {    
+    console.log('推送微信通知 - by maskwang')
     await sendNotify("" + ` ${res2} ` + ` ${res} ` + new Date().toLocaleDateString(), content);
   }
 }
