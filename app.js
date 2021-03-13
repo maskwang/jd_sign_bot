@@ -63,7 +63,7 @@ async function start() {
     content = fs.readFileSync(path, "utf8");
   }
 
-  console.log('=====> result')  
+  console.log('====111=> result')  
   console.log(content)
 
   let t = content.match(/【签到概览】:((.|\n)*)【签到奖励】/)
